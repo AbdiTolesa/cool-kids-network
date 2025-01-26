@@ -7,19 +7,21 @@ class Hooks {
 	 * @return void
 	 */
 	public static function register_hooks() {
-		add_shortcode( 'ckn-signup-button', array( __CLASS__, 'show_signup_button' ) );
+		add_shortcode( 'ckn-signup-button', array( __CLASS__, 'show_signup_button' ) ); // TODO: shortcode to show signup button + login form.
 		add_filter( 'the_content', array( __CLASS__, 'show_signup_form' ) );
-		add_action( 'init', array( __CLASS__, 'create_custom_roles' ) );
 		add_action( 'init', array( __CLASS__, 'process_signup_form' ) );
 	}
 
 	public static function show_signup_button() {
-		ob_start();
-		if ( ! is_user_logged_in() ) { ?>
-			<a href="<?php echo esc_url( home_url( '/cool-kids-network-signup' ) ); ?>" class="signup-button"><?php esc_html_e( 'Sign Up', 'cool-kids-network' ); ?></a>
-			<?php esc_html_e( ' for Cool Kids Network.', 'cool-kids-network' ); ?>
-			<?php
+		if ( is_user_logged_in() ) {
+			return;
 		}
+		ob_start();
+		?>
+		<a href="<?php echo esc_url( home_url( '/cool-kids-network-signup' ) ); ?>" class="signup-button"><?php esc_html_e( 'Sign Up', 'cool-kids-network' ); ?></a>
+		<?php esc_html_e( ' for Cool Kids Network, or use the following form to login if you already have an account.', 'cool-kids-network' ); ?>
+		<?php
+		wp_login_form();
 		return ob_get_clean();
 	}
 
@@ -79,7 +81,7 @@ class Hooks {
 			'first_name' => $first,
 			'last_name'  => $last,
 			'user_pass'  => 'test',
-			'role'       => 'cool_kid',
+			'role'       => 'cooler_kid',
 		);
 		$user_id = wp_insert_user( $user_data );
 		update_user_meta( $user_id, 'country', $response->results[0]->location->country );
@@ -100,11 +102,15 @@ class Hooks {
 		return $username;
 	}
 
-	public static function create_custom_roles() {
+	public static function ckn_activate() {
 		$capabilities = array(
-			'read'          => true,  // Allow reading
+			'read' => true,
 		);
-
+		add_role(
+			'cool_kid',
+			'Cool Kid',
+			$capabilities
+		);
 		add_role(
 			'cooler_kid',
 			'Cooler Kid',
@@ -113,11 +119,6 @@ class Hooks {
 		add_role(
 			'coolest_kid',
 			'Coolest Kid',
-			$capabilities
-		);
-		add_role(
-			'cool_kid',
-			'Cool Kid',
 			$capabilities
 		);
 	}
