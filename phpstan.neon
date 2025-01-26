@@ -1,0 +1,19 @@
+parameters:
+	level: max
+	reportUnmatchedIgnoredErrors: false
+	checkGenericClassInNonGenericObjectType: false
+	bootstrapFiles:
+		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+		- vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+		- vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
+	excludePaths:
+		- */node_modules/*
+		- */tests/*
+		- */bin/*
+		- */images/*
+		- */js/*
+		- */vendor/*
+		- views/*
+		- libraries/*
+	ignoreErrors:
+		- '#no (typehint|value type|return typehint)+ specified.#'

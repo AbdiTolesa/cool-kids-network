@@ -1,0 +1,8 @@
+.github
+.git
+.distignore
+composer.json
+composer.lock
+phpcs.xml
+phpstan.neon
+README.md
