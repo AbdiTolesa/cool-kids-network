@@ -7,6 +7,7 @@ class Hooks {
 	 * @return void
 	 */
 	public static function register_hooks() {
+		add_action( 'rest_api_init', array( new Rest_Controller(), 'register_routes' ) );
 		add_shortcode( 'ckn-signup-button', array( __CLASS__, 'show_signup_button' ) ); // TODO: shortcode to show signup button + login form.
 		add_filter( 'the_content', array( __CLASS__, 'show_signup_form' ) );
 		add_action( 'init', array( __CLASS__, 'process_signup_form' ) );
@@ -81,7 +82,7 @@ class Hooks {
 			'first_name' => $first,
 			'last_name'  => $last,
 			'user_pass'  => 'test',
-			'role'       => 'cooler_kid',
+			'role'       => 'cool_kid',
 		);
 		$user_id = wp_insert_user( $user_data );
 		update_user_meta( $user_id, 'country', $response->results[0]->location->country );
