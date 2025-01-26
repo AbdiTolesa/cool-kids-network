@@ -1,7 +1,7 @@
 <?php
 
 /**
-* Plugin Name: CoolKidsNetwork
+* Plugin Name: Cool Kids Network
 * Description: A new type of game.
 * Version: 1.0
 * Author: Abdi Tolessa
