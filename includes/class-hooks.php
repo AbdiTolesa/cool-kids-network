@@ -11,6 +11,7 @@ class Hooks {
 		add_shortcode( 'ckn-signup-button', array( __CLASS__, 'show_signup_button' ) ); // TODO: shortcode to show signup button + login form.
 		add_filter( 'the_content', array( __CLASS__, 'show_signup_form' ) );
 		add_action( 'init', array( __CLASS__, 'process_signup_form' ) );
+		add_shortcode( 'ckn-list-users', array( 'CoolKidsNetwork\Users_List', 'list_users' ) );
 	}
 
 	public static function show_signup_button() {
@@ -103,7 +104,7 @@ class Hooks {
 		return $username;
 	}
 
-	public static function ckn_activate() {
+	public static function on_activation() {
 		$capabilities = array(
 			'read' => true,
 		);

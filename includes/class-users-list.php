@@ -1,29 +1,48 @@
 <?php
 
-class User_List {
-	public static function get_user_data( $role ) {
-		$wp_user_search  = new WP_User_Query( array( 'fields' => 'all' ) );
-		$users           = $wp_user_search->get_results();
-		$meta_key        = 'country';
+namespace CoolKidsNetwork;
+
+class Users_List {
+	private static function get_users_data( $role ) {
+		$users_per_page = 10;
+
+		$paged = max( 1, get_query_var( 'paged' ) );
+
+		$offset = ( $paged - 1 ) * $users_per_page;
+
+		$user_query  = new \WP_User_Query(
+			array(
+				'fields' => 'all',
+				'number' => $users_per_page,
+				'offset' => $offset,
+			)
+		);
+		$users           = $user_query->get_results();
 		$users_with_meta = array();
 		foreach ( $users as $user ) {
-			$user_meta_value = get_user_meta( $user->ID, $meta_key, true );
-			$user_data       = array(
+			$user_data = array(
 				'name'    => $user->display_name,
-				$meta_key => $user_meta_value,
+				'country' => get_user_meta( $user->ID, 'country', true )
 			);
 			if ( 'coolest_kid' === $role ) {
+				global $wp_roles;
+				$role_name = isset( $wp_roles->roles[ $role ] ) ? $wp_roles->roles[ $role ]['name'] : '';
 				$user_data = array_merge(
 					$user_data,
 					array(
 						'email' => $user->user_email,
-						'role'  => $user->roles,
+						'role'  => $role_name,
 					)
 				);
 			}
 			$users_with_meta[] = $user_data;
 		}
-		return $users_with_meta;
+		$total_users = $user_query->get_total();
+		$total_pages = ceil( $total_users / $users_per_page );
+		return array(
+			'users'       => $users_with_meta,
+			'total_pages' => $user_query->get_total(),
+		);
 	}
 
 	/**
@@ -31,77 +50,78 @@ class User_List {
 	 *
 	 * @return void
 	 */
-	function display_users_with_pagination() {
-		// Number of users per page.
-		$users_per_page = 10;
-
-		// Get the current page number.
+	public static function display_users_with_pagination( $role ) {
+		$users_data = self::get_users_data( $role );
+		$users      = $users_data['users'];
+		if ( empty( $users ) ) {
+			echo '<p>' . esc_html__( 'No users found.', 'cool-kids-network' ) . '</p>';
+			return;
+		}
 		$paged = max( 1, get_query_var( 'paged' ) );
 
-		// Calculate the offset for pagination.
-		$offset = ( $paged - 1 ) * $users_per_page;
+		// Get the total number of users and calculate total pages.
+		$total_pages = $users_data['total_pages'];
 
-		// Query users with pagination.
-		$user_query = new WP_User_Query(
-			array(
-				'number' => $users_per_page,
-				'offset' => $offset,
-			)
+		$user_fields = array(
+			'name'    => __( 'Name', 'cool-kids-network' ),
+			'country' => __( 'Country', 'cool-kids-network' ),
 		);
 
-		// Get the total number of users and calculate total pages.
-		$total_users = $user_query->get_total();
-		$total_pages = ceil( $total_users / $users_per_page );
-
-		// Check if users are found.
-		if ( ! empty( $user_query->get_results() ) ) {
-			// Start the table.
-			echo '<table class="wp-list-table widefat fixed striped">';
-			echo '<thead>';
-			echo '<tr>';
-			echo '<th>' . esc_html__( 'Username', 'cool-kids-network' ) . '</th>';
-			echo '<th>' . esc_html__( 'Email', 'cool-kids-network' ) . '</th>';
-			echo '<th>' . esc_html__( 'Display Name', 'cool-kids-network' ) . '</th>';
-			echo '</tr>';
-			echo '</thead>';
-			echo '<tbody>';
-
-			// Loop through each user and display their details.
-			foreach ( $user_query->get_results() as $user ) {
-				echo '<tr>';
-				echo '<td>' . esc_html( $user->user_login ) . '</td>';
-				echo '<td>' . esc_html( $user->user_email ) . '</td>';
-				echo '<td>' . esc_html( $user->display_name ) . '</td>';
-				echo '</tr>';
-			}
-
-			echo '</tbody>';
-			echo '</table>';
-
-			// Display pagination.
-			echo '<div class="pagination">';
-			echo paginate_links(
+		if ( 'coolest_kid' === $role ) {
+			$user_fields = array_merge(
+				$user_fields,
 				array(
-					'base'      => get_pagenum_link( 1 ) . '%_%',
-					'format'    => 'page/%#%',
-					'current'   => $paged,
-					'total'     => $total_pages,
-					'prev_text' => __( '« Previous', 'cool-kids-network' ),
-					'next_text' => __( 'Next »', 'cool-kids-network' ),
+					'email' => __( 'Email', 'cool-kids-network' ),
+					'role'  => __( 'Role', 'cool-kids-network' ),
 				)
 			);
-			echo '</div>';
-		} else {
-			// No users found.
-			echo '<p>' . esc_html__( 'No users found.', 'cool-kids-network' ) . '</p>';
 		}
+
+		// Start the table.
+		echo '<table class="wp-list-table widefat fixed striped">';
+		echo '<thead>';
+		echo '<tr>';
+		foreach ( $user_fields as $field ) {
+			sprintf( '<th>%s</th>', esc_html( $field ) );
+		}
+		echo '</tr>';
+		echo '</thead>';
+		echo '<tbody>';
+
+		foreach ( $users as $user ) {
+			echo '<tr>';
+			foreach ( $user_fields as $field => $label ) {
+				echo '<td>' . esc_html( $user[ $field ] ) . '</td>';
+			}
+			echo '</tr>';
+		}
+
+		echo '</tbody>';
+		echo '</table>';
+
+		// Display pagination.
+		echo '<div class="pagination">';
+		echo paginate_links(
+			array(
+				'base'      => get_pagenum_link( 1 ) . '%_%',
+				'format'    => 'page/%#%',
+				'current'   => $paged,
+				'total'     => $total_pages,
+				'prev_text' => __( '« Previous', 'cool-kids-network' ),
+				'next_text' => __( 'Next »', 'cool-kids-network' ),
+			)
+		);
+		echo '</div>';
 	}
 
-	// Shortcode to display users with pagination
-	function users_with_pagination_shortcode() {
+	public static function list_users() {
+		$user        = wp_get_current_user();
+		$valid_roles = array_intersect( $user->roles, array( 'cooler_kid', 'coolest_kid' ) );
+		if ( ! $valid_roles ) {
+			return '';
+		}
 		ob_start();
-		display_users_with_pagination();
+		self::display_users_with_pagination( reset( $valid_roles ) );
 		return ob_get_clean();
 	}
-	// add_shortcode('list_users', 'users_with_pagination_shortcode');
 }
