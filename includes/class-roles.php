@@ -14,6 +14,14 @@ class Roles {
 		return current_user_can( 'manage_options' );
 	}
 
+	/**
+	 * Callback for REST route to update user role.
+	 *
+	 * @since 1.0
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return void
+	 */
 	public static function update_user_role( $request ) {
 		$request_params = $request->get_params();
 		if ( empty( $request_params['email'] ) || empty( $request_params['role'] ) ) {

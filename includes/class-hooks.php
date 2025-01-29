@@ -4,6 +4,10 @@ namespace CoolKidsNetwork;
 
 class Hooks {
 	/**
+	 * Registers hooks.
+	 *
+	 * @since 1.0
+	 *
 	 * @return void
 	 */
 	public static function register_hooks() {
@@ -15,9 +19,16 @@ class Hooks {
 		add_shortcode( 'ckn-show-character-info', array( 'CoolKidsNetwork\Users_List', 'show_character_info' ) );
 	}
 
+	/**
+	 * Outputs Sign up button or login form.
+	 *
+	 * @since 1.0
+	 *
+	 * @return string
+	 */
 	public static function show_signup_button() {
 		if ( is_user_logged_in() ) {
-			return;
+			return '';
 		}
 		ob_start();
 		?>
@@ -28,6 +39,15 @@ class Hooks {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Outputs a sign up form.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $html
+	 *
+	 * @return void
+	 */
 	public static function show_signup_form( $html ) {
 		if ( ! is_page( 'cool-kids-network-signup' ) ) {
 			return $html;
@@ -49,6 +69,13 @@ class Hooks {
 		return ob_get_clean() . $html;
 	}
 
+	/**
+	 * Creates user and its character.
+	 *
+	 * @since 1.0
+	 *
+	 * @return void
+	 */
 	public static function process_signup_form() {
 		if ( ! isset( $_POST['ckn-email'] ) ) {
 			return;
@@ -97,6 +124,16 @@ class Hooks {
 		exit;
 	}
 
+	/**
+	 * Returns a unique username based on first and last name.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $first_name
+	 * @param string $last_name
+	 *
+	 * @return string
+	 */
 	public static function generate_username_from_name( $first_name, $last_name ) {
 		$username          = sanitize_user( strtolower( $first_name . '.' . $last_name ) );
 		$original_username = $username;
@@ -108,6 +145,13 @@ class Hooks {
 		return $username;
 	}
 
+	/**
+	 * Callback for plugin activation.
+	 *
+	 * @since 1.0
+	 *
+	 * @return void
+	 */
 	public static function on_activation() {
 		$capabilities = array(
 			'read' => true,

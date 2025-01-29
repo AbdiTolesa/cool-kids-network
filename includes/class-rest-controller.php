@@ -33,6 +33,8 @@ class Rest_Controller {
 	protected $rest_base = self::BASE_ROUTE;
 
 	/**
+	 * @since 1.0
+	 *
 	 * @return void
 	 */
 	public function register_routes() {

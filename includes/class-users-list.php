@@ -3,6 +3,18 @@
 namespace CoolKidsNetwork;
 
 class Users_List {
+	/**
+	 * Get users data.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $role
+	 *
+	 * @return array {
+	 *   @type array $users       Array of users data.
+	 *   @type int   $total_pages Total number of pages.
+	 * }
+	 */
 	private static function get_users_data( $role ) {
 		$users_per_page = 10;
 
@@ -45,6 +57,13 @@ class Users_List {
 		);
 	}
 
+	/**
+	 * Callback for [ckn-show-character-info] shortcode.
+	 *
+	 * @since 1.0
+	 *
+	 * @return string
+	 */
 	public static function show_character_info() {
 		$user        = wp_get_current_user();
 		$valid_roles = array_intersect( $user->roles, array( 'cool_kid', 'cooler_kid', 'coolest_kid' ) );
@@ -131,6 +150,13 @@ class Users_List {
 		echo '</div>';
 	}
 
+	/**
+	 * Callback for the [ckn-list-users] shortcode.
+	 *
+	 * @since 1.0
+	 *
+	 * @return string
+	 */
 	public static function list_users() {
 		$user        = wp_get_current_user();
 		$valid_roles = array_intersect( $user->roles, array( 'cooler_kid', 'coolest_kid' ) );
