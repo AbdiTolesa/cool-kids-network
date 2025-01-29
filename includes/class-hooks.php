@@ -12,6 +12,7 @@ class Hooks {
 		add_filter( 'the_content', array( __CLASS__, 'show_signup_form' ) );
 		add_action( 'init', array( __CLASS__, 'process_signup_form' ) );
 		add_shortcode( 'ckn-list-users', array( 'CoolKidsNetwork\Users_List', 'list_users' ) );
+		add_shortcode( 'ckn-show-character-info', array( 'CoolKidsNetwork\Users_List', 'show_character_info' ) );
 	}
 
 	public static function show_signup_button() {
@@ -68,7 +69,10 @@ class Hooks {
 			exit;
 		}
 
-		$response = wp_remote_get( 'https://randomuser.me/api/?inc=name,location' );
+		$args = array(
+			'timeout' => 30,
+		);
+		$response = wp_remote_get( 'https://randomuser.me/api/?inc=name,location', $args );
 		if ( is_wp_error( $response ) ) {
 			wp_send_json_error( $response ); // TODO: Handle it better!
 		}
@@ -110,18 +114,25 @@ class Hooks {
 		);
 		add_role(
 			'cool_kid',
-			'Cool Kid',
-			$capabilities
+			'Cool Kid'
 		);
 		add_role(
 			'cooler_kid',
 			'Cooler Kid',
-			$capabilities
+			array(
+				'view_other_users_name'    => true,
+				'view_other_users_country' => true,
+			)
 		);
 		add_role(
 			'coolest_kid',
 			'Coolest Kid',
-			$capabilities
+			array(
+				'view_other_users_name'    => true,
+				'view_other_users_country' => true,
+				'view_other_users_email'   => true,
+				'view_other_users_role'    => true,
+			)
 		);
 	}
 }

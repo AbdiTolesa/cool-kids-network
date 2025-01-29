@@ -45,6 +45,27 @@ class Users_List {
 		);
 	}
 
+	public static function show_character_info() {
+		$user        = wp_get_current_user();
+		$valid_roles = array_intersect( $user->roles, array( 'cool_kid', 'cooler_kid', 'coolest_kid' ) );
+		if ( ! $valid_roles ) {
+			return '';
+		}
+		$role = reset( $valid_roles );
+		global $wp_roles;
+		$role_name = isset( $wp_roles->roles[ $role ] ) ? $wp_roles->roles[ $role ]['name'] : '';
+		ob_start();
+		?>
+		<ul>
+			<li><?php echo esc_html( $user->display_name ); ?></li>
+			<li><?php echo esc_html( $user->user_email ); ?></li>
+			<li><?php echo esc_html( get_user_meta( $user->ID, 'country', true ) ); ?></li>
+			<li><?php echo esc_html( $role_name ); ?></li>
+		</ul>
+		<?php
+		return ob_get_clean();
+	}
+
 	/**
 	 * Display a paginated list of users in a table format.
 	 *
@@ -67,22 +88,18 @@ class Users_List {
 			'country' => __( 'Country', 'cool-kids-network' ),
 		);
 
-		if ( 'coolest_kid' === $role ) {
-			$user_fields = array_merge(
-				$user_fields,
-				array(
-					'email' => __( 'Email', 'cool-kids-network' ),
-					'role'  => __( 'Role', 'cool-kids-network' ),
-				)
-			);
+		if ( current_user_can( 'view_other_users_email' ) ) {
+			$user_fields['email'] = __( 'Email', 'cool-kids-network' );
 		}
-
+		if ( current_user_can( 'view_other_users_role' ) ) {
+			$user_fields['role']  = __( 'Role', 'cool-kids-network' );
+		}
 		// Start the table.
 		echo '<table class="wp-list-table widefat fixed striped">';
 		echo '<thead>';
 		echo '<tr>';
 		foreach ( $user_fields as $field ) {
-			sprintf( '<th>%s</th>', esc_html( $field ) );
+			printf( '<th>%s</th>', esc_html( $field ) );
 		}
 		echo '</tr>';
 		echo '</thead>';
