@@ -2,7 +2,7 @@
 
 namespace CoolKidsNetwork;
 
-class Users_List {
+class Users {
 	/**
 	 * Get users data.
 	 *
@@ -55,6 +55,27 @@ class Users_List {
 			'users'       => $users_with_meta,
 			'total_pages' => $user_query->get_total(),
 		);
+	}
+
+	/**
+	 * Returns a unique username based on first and last name.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $first_name
+	 * @param string $last_name
+	 *
+	 * @return string
+	 */
+	public static function generate_username_from_name( $first_name, $last_name ) {
+		$username          = sanitize_user( strtolower( $first_name . '.' . $last_name ) );
+		$original_username = $username;
+		$counter           = 1;
+		while ( username_exists( $username ) ) {
+			$username = $original_username . $counter;
+			$counter++;
+		}
+		return $username;
 	}
 
 	/**

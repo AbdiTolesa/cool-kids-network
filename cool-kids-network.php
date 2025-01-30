@@ -9,7 +9,7 @@
 * Text Domain: cool-kids-network
  */
 
-register_activation_hook( __FILE__, array( 'CoolKidsNetwork\Hooks', 'on_activation' ) );
+register_activation_hook( __FILE__, array( 'CoolKidsNetwork\Roles', 'on_activation' ) );
 
 require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
 

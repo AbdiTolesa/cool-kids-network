@@ -52,4 +52,39 @@ class Roles {
 		}
 		wp_send_json_success( esc_html__( 'Role updated.', 'cool-kids-network' ) );
 	}
+
+	/**
+	 * Callback for plugin activation.
+	 *
+	 * @since 1.0
+	 *
+	 * @return void
+	 */
+	public static function on_activation() {
+		$capabilities = array(
+			'read' => true,
+		);
+		add_role(
+			'cool_kid',
+			'Cool Kid'
+		);
+		add_role(
+			'cooler_kid',
+			'Cooler Kid',
+			array(
+				'view_other_users_name'    => true,
+				'view_other_users_country' => true,
+			)
+		);
+		add_role(
+			'coolest_kid',
+			'Coolest Kid',
+			array(
+				'view_other_users_name'    => true,
+				'view_other_users_country' => true,
+				'view_other_users_email'   => true,
+				'view_other_users_role'    => true,
+			)
+		);
+	}
 }
