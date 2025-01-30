@@ -15,5 +15,10 @@ class Hooks_Controller {
 		add_filter( 'the_content', array( 'CoolKidsNetwork\Forms_Controller', 'filter_page_content' ) );
 		add_action( 'init', array( 'CoolKidsNetwork\Forms_Controller', 'process_signup_form' ) );
 		add_action( 'wp_enqueue_scripts', array( 'CoolKidsNetwork\Plugin_Controller', 'enqueue_styles' ) );
+		add_action( 'pre_get_posts', function( $query ) {
+			if ( ! is_admin() && $query->is_main_query() ) {
+				$query->set( 'paged', isset( $_GET['pg'] ) ?  $_GET['pg'] : 1 );
+			}
+		});
 	}
 }

@@ -10,12 +10,12 @@
  * @var int   $total_pages
  */
 ?>
-<table class="table-auto text-md">
+<table class="table-auto text-base w-full">
 	<thead>
 		<tr>
 			<?php
 			foreach ( $user_fields as $field ) {
-				printf( '<th>%s</th>', esc_html( $field ) );
+				printf( '<th class="border-b border-gray-200 p-4 pt-0 pb-3 pl-8 text-left font-medium text-gray-400 dark:border-gray-600 dark:text-gray-200">%s</th>', esc_html( $field ) );
 			}
 			?>
 		</tr>
@@ -32,16 +32,13 @@
 		?>
 	</tbody>
 </table>
-<div class="pagination">
+<div class="text-center">
 	<?php
 	echo paginate_links(
 		array(
-			'base'      => get_pagenum_link( 1 ) . '%_%',
-			'format'    => 'page/%#%',
+			'base'      => '?pg=%#%',
 			'current'   => $paged,
 			'total'     => $total_pages,
-			'prev_text' => __( '« Previous', 'cool-kids-network' ),
-			'next_text' => __( 'Next »', 'cool-kids-network' ),
 		)
 	);
 	?>

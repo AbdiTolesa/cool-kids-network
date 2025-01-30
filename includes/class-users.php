@@ -21,7 +21,8 @@ class Users {
 	 * }
 	 */
 	private static function get_users_data( $role ) {
-		$paged  = max( 1, get_query_var( 'paged' ) );
+		$paged = isset( $_GET['pg'] ) ? max( 1, intval( $_GET['pg'] ) ) : 1;
+
 		$offset = ( $paged - 1 ) * self::PER_PAGE;
 
 		$user_query = new \WP_User_Query(
