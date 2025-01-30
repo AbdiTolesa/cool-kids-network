@@ -66,9 +66,6 @@ class Roles {
 	 * @return void
 	 */
 	public static function on_activation() {
-		$capabilities = array(
-			'read' => true,
-		);
 		add_role(
 			'cool_kid',
 			'Cool Kid'
