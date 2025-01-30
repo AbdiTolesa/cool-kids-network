@@ -25,6 +25,7 @@ class Roles {
 	 * @since 1.0
 	 *
 	 * @param \WP_REST_Request $request
+	 *
 	 * @return void
 	 */
 	public static function update_user_role( $request ) {
