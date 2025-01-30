@@ -10,8 +10,31 @@ class Forms_Controller {
 	 *
 	 * @return string
 	 */
-	public static function show_signup_button() {
+	public static function filter_page_content( $html ) {
+		$login_form = self::maybe_get_login_form();
 		if ( is_user_logged_in() ) {
+			$character_html  = Users::show_character_info();
+			$users_list_html = Users::list_users();
+		} else {
+			$character_html  = '';
+			$users_list_html = '';
+		}
+
+		return $login_form . $character_html . $users_list_html . $html;
+	}
+
+	/**
+	 * Outputs a Signup button and login form for anonymous users.
+	 *
+	 * @since 1.0
+	 *
+	 * @return string
+	 */
+	private static function maybe_get_login_form() {
+		if ( is_user_logged_in() ) {
+			return '';
+		}
+		if ( ! is_front_page() && ! is_home() ) {
 			return '';
 		}
 		ob_start();
@@ -28,17 +51,15 @@ class Forms_Controller {
 	 *
 	 * @since 1.0
 	 *
-	 * @param string $html
-	 *
-	 * @return void
+	 * @return string
 	 */
-	public static function show_signup_form( $html ) {
-		if ( ! is_page( 'cool-kids-network-signup' ) ) {
-			return $html;
+	public static function show_signup_form() {
+		if ( is_user_logged_in() ) {
+			return '';
 		}
 		ob_start();
 		include CKN_VIEWS_DIR . '/signup-form.php';
-		return ob_get_clean() . $html;
+		return ob_get_clean();
 	}
 
 	/**
@@ -92,7 +113,7 @@ class Forms_Controller {
 		update_user_meta( $user_id, 'country', $response->results[0]->location->country );
 		wp_set_current_user( $user_id );
 		wp_set_auth_cookie( $user_id );
-		wp_redirect( home_url( '/cool-kids-network' ) );
+		wp_redirect( home_url() );
 		exit;
 	}
 }
