@@ -154,4 +154,19 @@ class Users {
 		self::display_users_with_pagination( reset( $valid_roles ) );
 		return ob_get_clean();
 	}
+
+	/**
+	 * Set the paged query var based on the pg query var.
+	 *
+	 * @since 1.0
+	 *
+	 * @param \WP_Query $query
+	 *
+	 * @return void
+	 */
+	public static function set_paged_query_var( $query ) {
+		if ( ! is_admin() && $query->is_main_query() && isset( $_GET['pg'] ) ) {
+			$query->set( 'paged', absint( $_GET['pg'] ) );
+		}
+	}
 }

@@ -15,7 +15,7 @@
 		<tr>
 			<?php
 			foreach ( $user_fields as $field ) {
-				printf( '<th class="border-b border-gray-200 p-4 pt-0 pb-3 pl-8 text-left font-medium text-gray-400 dark:border-gray-600 dark:text-gray-200">%s</th>', esc_html( $field ) );
+				printf( '<th class="border-b border-gray-200 p-4 pt-0 pb-3 pl-8 text-left font-medium">%s</th>', esc_html( $field ) );
 			}
 			?>
 		</tr>
@@ -23,9 +23,9 @@
 	<tbody>
 		<?php
 		foreach ( $users as $user ) {
-			echo '<tr>';
+			echo '<tr class="hover:bg-gray-50 ">';
 			foreach ( $user_fields as $field => $label ) {
-				printf( '<td class="border-b border-gray-100 dark:border-gray-700 dark:text-gray-400 p-4 pl-8 text-gray-500">%s</td>', esc_html( $user[ $field ] ) );
+				printf( '<td class="border-b border-gray-300 p-4 pl-8">%s</td>', esc_html( $user[ $field ] ) );
 			}
 			echo '</tr>';
 		}

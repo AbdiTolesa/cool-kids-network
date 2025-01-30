@@ -38,11 +38,7 @@ class Forms_Controller {
 			return '';
 		}
 		ob_start();
-		?>
-		<a href="<?php echo esc_url( home_url( '/cool-kids-network-signup' ) ); ?>" class="signup-button"><?php esc_html_e( 'Sign Up', 'cool-kids-network' ); ?></a>
-		<?php esc_html_e( ' for Cool Kids Network, or use the following form to login if you already have an account.', 'cool-kids-network' ); ?>
-		<?php
-		wp_login_form();
+		include CKN_VIEWS_DIR . '/login-form.php';
 		return ob_get_clean();
 	}
 
