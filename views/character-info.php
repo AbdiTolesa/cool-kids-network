@@ -4,7 +4,7 @@
  *
  * @since 1.0
  *
- * @var WP_User $user
+ * @var \WP_User $user
  * @var string  $role_name
  */
 ?>
