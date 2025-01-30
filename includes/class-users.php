@@ -87,7 +87,7 @@ class Users {
 	 */
 	public static function show_character_info() {
 		$user        = wp_get_current_user();
-		$valid_roles = array_intersect( $user->roles, array( 'cool_kid', 'cooler_kid', 'coolest_kid' ) );
+		$valid_roles = array_intersect( $user->roles, Roles::COOL_KIDS_NETWORK_ROLES );
 		if ( ! $valid_roles ) {
 			return '';
 		}

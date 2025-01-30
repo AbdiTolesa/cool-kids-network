@@ -4,6 +4,11 @@ namespace CoolKidsNetwork;
 
 class Roles {
 	/**
+	 * Roles for Cool Kids Network.
+	 */
+	const COOL_KIDS_NETWORK_ROLES = array( 'cool_kid', 'cooler_kid', 'coolest_kid' );
+
+	/**
 	 * Checks required permission check for custom endpoints defined in this plugin.
 	 *
 	 * @since 1.0
@@ -28,7 +33,7 @@ class Roles {
 			wp_send_json_error( esc_html__( 'Missing required parameters.', 'cool-kids-network' ) );
 		}
 
-		if ( ! in_array( $request_params['role'], array( 'cool_kid', 'cooler_kid', 'coolest_kid' ), true ) ) {
+		if ( ! in_array( $request_params['role'], self::COOL_KIDS_NETWORK_ROLES, true ) ) {
 			wp_send_json_error( esc_html__( 'Invalid role.', 'cool-kids-network' ) );
 		}
 
