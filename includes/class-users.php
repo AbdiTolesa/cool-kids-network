@@ -26,7 +26,6 @@ class Users {
 
 		$user_query = new \WP_User_Query(
 			array(
-				'fields' => 'all',
 				'number' => self::PER_PAGE,
 				'offset' => $offset,
 			)
@@ -37,7 +36,7 @@ class Users {
 		foreach ( $users as $user ) {
 			$user_data = array(
 				'name'    => $user->display_name,
-				'country' => get_user_meta( $user->ID, 'country', true )
+				'country' => get_user_meta( $user->ID, 'country', true ),
 			);
 			if ( 'coolest_kid' === $role ) {
 				global $wp_roles;
@@ -56,7 +55,7 @@ class Users {
 		$total_pages = ceil( $total_users / self::PER_PAGE );
 		return array(
 			'users'       => $users_with_meta,
-			'total_pages' => $user_query->get_total(),
+			'total_pages' => $total_pages,
 		);
 	}
 

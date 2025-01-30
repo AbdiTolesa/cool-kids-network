@@ -21,3 +21,7 @@ if ( ! defined( 'CKN_PLUGIN_DIR' ) ) {
 if ( ! defined( 'CKN_VIEWS_DIR' ) ) {
 	define( 'CKN_VIEWS_DIR', CKN_PLUGIN_DIR . 'views/' );
 }
+
+if ( ! defined( 'CKN_PLUGIN_URL' ) ) {
+	define( 'CKN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+}

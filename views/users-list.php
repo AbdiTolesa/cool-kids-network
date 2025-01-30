@@ -10,7 +10,7 @@
  * @var int   $total_pages
  */
 ?>
-<table class="wp-list-table widefat fixed striped">
+<table class="table-auto text-md">
 	<thead>
 		<tr>
 			<?php
@@ -25,7 +25,7 @@
 		foreach ( $users as $user ) {
 			echo '<tr>';
 			foreach ( $user_fields as $field => $label ) {
-				printf( '<td>%s</td>', esc_html( $user[ $field ] ) );
+				printf( '<td class="border-b border-gray-100 dark:border-gray-700 dark:text-gray-400 p-4 pl-8 text-gray-500">%s</td>', esc_html( $user[ $field ] ) );
 			}
 			echo '</tr>';
 		}
