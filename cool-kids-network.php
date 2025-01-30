@@ -14,3 +14,11 @@ register_activation_hook( __FILE__, array( 'CoolKidsNetwork\Roles', 'on_activati
 require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
 
 CoolKidsNetwork\Hooks::register_hooks();
+
+if ( ! defined( 'CKN_PLUGIN_DIR' ) ) {
+	define( 'CKN_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+}
+
+if ( ! defined( 'CKN_VIEWS_DIR' ) ) {
+	define( 'CKN_VIEWS_DIR', CKN_PLUGIN_DIR . 'views/' );
+}

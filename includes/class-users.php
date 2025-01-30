@@ -4,6 +4,11 @@ namespace CoolKidsNetwork;
 
 class Users {
 	/**
+	 * Number of users to display per page.
+	 */
+	const PER_PAGE = 10;
+
+	/**
 	 * Get users data.
 	 *
 	 * @since 1.0
@@ -16,19 +21,17 @@ class Users {
 	 * }
 	 */
 	private static function get_users_data( $role ) {
-		$users_per_page = 10;
+		$paged  = max( 1, get_query_var( 'paged' ) );
+		$offset = ( $paged - 1 ) * self::PER_PAGE;
 
-		$paged = max( 1, get_query_var( 'paged' ) );
-
-		$offset = ( $paged - 1 ) * $users_per_page;
-
-		$user_query  = new \WP_User_Query(
+		$user_query = new \WP_User_Query(
 			array(
 				'fields' => 'all',
-				'number' => $users_per_page,
+				'number' => self::PER_PAGE,
 				'offset' => $offset,
 			)
 		);
+
 		$users           = $user_query->get_results();
 		$users_with_meta = array();
 		foreach ( $users as $user ) {
@@ -50,7 +53,7 @@ class Users {
 			$users_with_meta[] = $user_data;
 		}
 		$total_users = $user_query->get_total();
-		$total_pages = ceil( $total_users / $users_per_page );
+		$total_pages = ceil( $total_users / self::PER_PAGE );
 		return array(
 			'users'       => $users_with_meta,
 			'total_pages' => $user_query->get_total(),
@@ -95,19 +98,16 @@ class Users {
 		global $wp_roles;
 		$role_name = isset( $wp_roles->roles[ $role ] ) ? $wp_roles->roles[ $role ]['name'] : '';
 		ob_start();
-		?>
-		<ul>
-			<li><?php echo esc_html( $user->display_name ); ?></li>
-			<li><?php echo esc_html( $user->user_email ); ?></li>
-			<li><?php echo esc_html( get_user_meta( $user->ID, 'country', true ) ); ?></li>
-			<li><?php echo esc_html( $role_name ); ?></li>
-		</ul>
-		<?php
+		include CKN_VIEWS_DIR . '/character-info.php';
 		return ob_get_clean();
 	}
 
 	/**
 	 * Display a paginated list of users in a table format.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $role
 	 *
 	 * @return void
 	 */
@@ -115,7 +115,7 @@ class Users {
 		$users_data = self::get_users_data( $role );
 		$users      = $users_data['users'];
 		if ( empty( $users ) ) {
-			echo '<p>' . esc_html__( 'No users found.', 'cool-kids-network' ) . '</p>';
+			printf( '<p>%s</p>', esc_html__( 'No users found.', 'cool-kids-network' ) );
 			return;
 		}
 		$paged = max( 1, get_query_var( 'paged' ) );
@@ -132,43 +132,9 @@ class Users {
 			$user_fields['email'] = __( 'Email', 'cool-kids-network' );
 		}
 		if ( current_user_can( 'view_other_users_role' ) ) {
-			$user_fields['role']  = __( 'Role', 'cool-kids-network' );
+			$user_fields['role'] = __( 'Role', 'cool-kids-network' );
 		}
-		// Start the table.
-		echo '<table class="wp-list-table widefat fixed striped">';
-		echo '<thead>';
-		echo '<tr>';
-		foreach ( $user_fields as $field ) {
-			printf( '<th>%s</th>', esc_html( $field ) );
-		}
-		echo '</tr>';
-		echo '</thead>';
-		echo '<tbody>';
-
-		foreach ( $users as $user ) {
-			echo '<tr>';
-			foreach ( $user_fields as $field => $label ) {
-				echo '<td>' . esc_html( $user[ $field ] ) . '</td>';
-			}
-			echo '</tr>';
-		}
-
-		echo '</tbody>';
-		echo '</table>';
-
-		// Display pagination.
-		echo '<div class="pagination">';
-		echo paginate_links(
-			array(
-				'base'      => get_pagenum_link( 1 ) . '%_%',
-				'format'    => 'page/%#%',
-				'current'   => $paged,
-				'total'     => $total_pages,
-				'prev_text' => __( '« Previous', 'cool-kids-network' ),
-				'next_text' => __( 'Next »', 'cool-kids-network' ),
-			)
-		);
-		echo '</div>';
+		include CKN_VIEWS_DIR . '/users-list.php';
 	}
 
 	/**
