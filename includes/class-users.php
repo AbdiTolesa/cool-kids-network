@@ -177,8 +177,8 @@ class Users {
 	 * @return void
 	 */
 	public static function set_paged_query_var( $query ) {
-		if ( ! is_admin() && $query->is_main_query() && isset( $_GET['pg'] ) ) {
-			$query->set( 'paged', absint( $_GET['pg'] ) );
+		if ( ! is_admin() && $query->is_main_query() && isset( $_GET['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$query->set( 'paged', absint( sanitize_key( wp_unslash( $_GET['pg'] ) ) ) );
 		}
 	}
 }

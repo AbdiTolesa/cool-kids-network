@@ -34,8 +34,7 @@
 </table>
 <div class="text-center">
 	<?php
-	echo
-		paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			array(
 				'base'    => '?pg=%#%',
 				'current' => $paged,
