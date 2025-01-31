@@ -27,8 +27,9 @@ class Users {
 
 		$user_query = new \WP_User_Query(
 			array(
-				'number' => self::PER_PAGE,
-				'offset' => $offset,
+				'number'   => self::PER_PAGE,
+				'offset'   => $offset,
+				'role__in' => Roles::COOL_KIDS_NETWORK_ROLES,
 			)
 		);
 
