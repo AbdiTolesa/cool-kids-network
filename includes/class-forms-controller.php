@@ -4,23 +4,20 @@ namespace CoolKidsNetwork;
 
 class Forms_Controller {
 	/**
-	 * Outputs Sign up button or login form.
+	 * Outputs a form that has Signup button and a login form for anonymous users.
 	 *
 	 * @since 1.0
 	 *
 	 * @return string
 	 */
 	public static function filter_page_content( $html ) {
-		$login_form = self::maybe_get_login_form();
-		if ( is_user_logged_in() ) {
-			$character_html  = Users::show_character_info();
-			$users_list_html = Users::list_users();
-		} else {
-			$character_html  = '';
-			$users_list_html = '';
+		if ( ! is_front_page() && ! is_home() ) {
+			return $html;
 		}
-
-		return $login_form . $character_html . $users_list_html . $html;
+		if ( is_user_logged_in() ) {
+			return do_shortcode( '[ckn-show-character-info]' ) . do_shortcode( '[ckn-list-users]' ) . $html;
+		}
+		return self::maybe_get_login_form() . $html;
 	}
 
 	/**
@@ -31,12 +28,6 @@ class Forms_Controller {
 	 * @return string
 	 */
 	private static function maybe_get_login_form() {
-		if ( is_user_logged_in() ) {
-			return '';
-		}
-		if ( ! is_front_page() && ! is_home() ) {
-			return '';
-		}
 		ob_start();
 		include CKN_VIEWS_DIR . '/login-form.php';
 		return ob_get_clean();

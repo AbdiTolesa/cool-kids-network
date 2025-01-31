@@ -90,6 +90,9 @@ class Users {
 	 * @return string
 	 */
 	public static function show_character_info() {
+		if ( ! is_user_logged_in() ) {
+			return '';
+		}
 		$user        = wp_get_current_user();
 		$valid_roles = array_intersect( $user->roles, Roles::COOL_KIDS_NETWORK_ROLES );
 		if ( ! $valid_roles ) {
@@ -146,6 +149,9 @@ class Users {
 	 * @return string
 	 */
 	public static function list_users() {
+		if ( ! is_user_logged_in() ) {
+			return '';
+		}
 		$user        = wp_get_current_user();
 		$valid_roles = array_intersect( $user->roles, array( 'cooler_kid', 'coolest_kid' ) );
 		if ( ! $valid_roles ) {
