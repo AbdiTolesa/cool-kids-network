@@ -35,11 +35,11 @@
 <div class="text-center">
 	<?php
 	echo paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			array(
-				'base'    => '?pg=%#%',
-				'current' => $paged,
-				'total'   => $total_pages,
-			)
-		);
+		array(
+			'base'    => '?pg=%#%',
+			'current' => $paged,
+			'total'   => $total_pages,
+		)
+	);
 	?>
 </div>
