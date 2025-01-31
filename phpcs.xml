@@ -17,7 +17,4 @@
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
 		<exclude name="WordPress.PHP.YodaConditions" />
 	</rule>
-	<rule ref="PSR1.Classes.ClassDeclaration">
-		<exclude name="PSR1.Classes.ClassDeclaration.UnknownCapability"/>
-	</rule>
 </ruleset>

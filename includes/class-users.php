@@ -21,7 +21,7 @@ class Users {
 	 * }
 	 */
 	private static function get_users_data( $role ) {
-		$paged = isset( $_GET['pg'] ) ? max( 1, absint( $_GET['pg'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$paged = isset( $_GET['pg'] ) ? max( 1, absint( $_GET['pg'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		$offset = ( $paged - 1 ) * self::PER_PAGE;
 
@@ -128,16 +128,16 @@ class Users {
 		$total_pages = $users_data['total_pages'];
 
 		$user_fields = array();
-		if ( current_user_can( 'view_other_users_name' ) ) {
+		if ( current_user_can( 'view_other_users_name' ) ) { // phpcs:ignore
 			$user_fields['name'] = __( 'Name', 'cool-kids-network' );
 		}
-		if ( current_user_can( 'view_other_users_country' ) ) {
+		if ( current_user_can( 'view_other_users_country' ) ) { // phpcs:ignore
 			$user_fields['country'] = __( 'Country', 'cool-kids-network' );
 		}
-		if ( current_user_can( 'view_other_users_email' ) ) {
+		if ( current_user_can( 'view_other_users_email' ) ) { // phpcs:ignore
 			$user_fields['email'] = __( 'Email', 'cool-kids-network' );
 		}
-		if ( current_user_can( 'view_other_users_role' ) ) {
+		if ( current_user_can( 'view_other_users_role' ) ) { // phpcs:ignore
 			$user_fields['role'] = __( 'Role', 'cool-kids-network' );
 		}
 		if ( empty( $user_fields ) ) {
