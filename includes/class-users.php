@@ -21,7 +21,7 @@ class Users {
 	 * }
 	 */
 	private static function get_users_data( $role ) {
-		$paged = isset( $_GET['pg'] ) ? max( 1, intval( $_GET['pg'] ) ) : 1;
+		$paged = isset( $_GET['pg'] ) ? max( 1, absint( $_GET['pg'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 		$offset = ( $paged - 1 ) * self::PER_PAGE;
 
@@ -77,7 +77,7 @@ class Users {
 		$counter           = 1;
 		while ( username_exists( $username ) ) {
 			$username = $original_username . $counter;
-			$counter++;
+			++$counter;
 		}
 		return $username;
 	}

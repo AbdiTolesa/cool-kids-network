@@ -4,7 +4,7 @@
  *
  * @since 1.0
  */
-if ( isset( $_REQUEST['error'] ) && 'email_exists' === $_REQUEST['error'] ) {
+if ( isset( $_REQUEST['error'] ) && 'email_exists' === $_REQUEST['error'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 	?>
 	<p class="mt-2 text-sm text-red-600"><?php esc_html_e( 'Oops! User with that email already exists!', 'cool-kids-network' ); ?></p>
 	<?php

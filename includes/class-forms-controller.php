@@ -57,14 +57,14 @@ class Forms_Controller {
 	 * @return void
 	 */
 	public static function process_signup_form() {
-		if ( ! isset( $_POST['ckn-email'] ) ) {
+		if ( ! isset( $_POST['ckn-email'] ) || ! isset( $_POST['_wpnonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'ckn_signup_action' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_wpnonce'] ) ), 'ckn_signup_action' ) ) {
 			wp_die();
 		}
 
-		$email   = sanitize_email( $_POST['ckn-email'] );
+		$email   = sanitize_email( wp_unslash( $_POST['ckn-email'] ) );
 		$user_id = email_exists( $email );
 
 		if ( $user_id ) {
@@ -72,7 +72,7 @@ class Forms_Controller {
 				array( 'error' => 'email_exists' ),
 				home_url( '/cool-kids-network-signup' )
 			);
-			wp_redirect( $url );
+			wp_safe_redirect( $url );
 			exit;
 		}
 
@@ -81,7 +81,7 @@ class Forms_Controller {
 		);
 		$response = wp_remote_get( 'https://randomuser.me/api/?inc=name,location', $args );
 		if ( is_wp_error( $response ) ) {
-			wp_die( $response );
+			wp_die( esc_html( $response->get_error_message() ) );
 		}
 		$response = json_decode( wp_remote_retrieve_body( $response ) );
 
@@ -100,7 +100,7 @@ class Forms_Controller {
 		update_user_meta( $user_id, 'country', $response->results[0]->location->country );
 		wp_set_current_user( $user_id );
 		wp_set_auth_cookie( $user_id );
-		wp_redirect( home_url() );
+		wp_safe_redirect( home_url() );
 		exit;
 	}
 }

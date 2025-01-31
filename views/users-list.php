@@ -34,11 +34,13 @@
 </table>
 <div class="text-center">
 	<?php
-	echo paginate_links(
-		array(
-			'base'      => '?pg=%#%',
-			'current'   => $paged,
-			'total'     => $total_pages,
+	printf(
+		paginate_links(
+			array(
+				'base'    => '?pg=%#%',
+				'current' => $paged,
+				'total'   => $total_pages,
+			)
 		)
 	);
 	?>

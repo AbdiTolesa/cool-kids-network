@@ -9,7 +9,7 @@
 		<p class="text-sm font-medium text-gray-700">
 			<?php esc_html_e( 'Don’t have an account yet?', 'cool-kids-network' ); ?> 
 			<a href="<?php echo esc_url( home_url( '/cool-kids-network-signup' ) ); ?>" class="text-md font-semibold underline text-gray-800">
-				<?php esc_html_e( 'Sign up', 'cool-kids-network'); ?>
+				<?php esc_html_e( 'Sign up', 'cool-kids-network' ); ?>
 			</a>
 		</p>
 	</div>
