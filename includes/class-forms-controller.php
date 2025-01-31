@@ -81,7 +81,7 @@ class Forms_Controller {
 		);
 		$response = wp_remote_get( 'https://randomuser.me/api/?inc=name,location', $args );
 		if ( is_wp_error( $response ) ) {
-			wp_send_json_error( $response ); // TODO: Handle it better!
+			wp_die( $response );
 		}
 		$response = json_decode( wp_remote_retrieve_body( $response ) );
 

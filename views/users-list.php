@@ -23,9 +23,9 @@
 	<tbody>
 		<?php
 		foreach ( $users as $user ) {
-			echo '<tr class="hover:bg-gray-50 ">';
+			echo '<tr class="hover:bg-gray-50">';
 			foreach ( $user_fields as $field => $label ) {
-				printf( '<td class="border-b border-gray-300 p-4 pl-8">%s</td>', esc_html( $user[ $field ] ) );
+				printf( '<td class="whitespace-nowrap border-b border-gray-300 p-4 pl-8">%s</td>', esc_html( $user[ $field ] ) );
 			}
 			echo '</tr>';
 		}

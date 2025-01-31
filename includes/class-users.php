@@ -127,16 +127,21 @@ class Users {
 		// Get the total number of users and calculate total pages.
 		$total_pages = $users_data['total_pages'];
 
-		$user_fields = array(
-			'name'    => __( 'Name', 'cool-kids-network' ),
-			'country' => __( 'Country', 'cool-kids-network' ),
-		);
-
+		$user_fields = array();
+		if ( current_user_can( 'view_other_users_name' ) ) {
+			$user_fields['name'] = __( 'Name', 'cool-kids-network' );
+		}
+		if ( current_user_can( 'view_other_users_country' ) ) {
+			$user_fields['country'] = __( 'Country', 'cool-kids-network' );
+		}
 		if ( current_user_can( 'view_other_users_email' ) ) {
 			$user_fields['email'] = __( 'Email', 'cool-kids-network' );
 		}
 		if ( current_user_can( 'view_other_users_role' ) ) {
 			$user_fields['role'] = __( 'Role', 'cool-kids-network' );
+		}
+		if ( empty( $user_fields ) ) {
+			return;
 		}
 		include CKN_VIEWS_DIR . '/users-list.php';
 	}
