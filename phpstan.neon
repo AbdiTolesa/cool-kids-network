@@ -16,4 +16,4 @@ parameters:
 		- libraries/*
 	ignoreErrors:
 		- '#no (typehint|value type|return typehint)+ specified.#'
-		- 'binaryOp.invalid'
+		- '#binaryOp.invalid#'
