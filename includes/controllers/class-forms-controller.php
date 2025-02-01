@@ -28,13 +28,13 @@ class Forms_Controller {
 	 * @since 1.0
 	 *
 	 * @param string $block_content
-	 * @param array  $block {
+	 * @param array<object>  $block {
 	 *     @type string $blockName The block name including namespace.
 	 * }
 	 *
 	 * @return string
 	 */
-	public static function filter_blog_index_html( $block_content, $block ) { // @phpstan-ignore-line
+	public static function filter_blog_index_html( $block_content, $block ) {
 		if ( ! is_front_page() || ! is_home() ) {
 			return $block_content;
 		}
