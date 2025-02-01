@@ -5,6 +5,9 @@ This plugin adds new features that allows users register into the website with a
 ### How it works
 The system uses [randomuser.me](https://randomuser.me/) API's service to get a randomly generated user data that contains name and location. It then creates a unique user login from the combination of first and last name. A WordPress user is then created with those profile data. The country is then extracted from `location` attribute of the random user data and stored as the user meta value for `country` meta key. The default role for the user created is `cool_kid`.
 
+### Filters
+`ckn_signup_page_slug` - This filter can be used to change the page users are redirected to for Signup by providing the page's slug.
+
 ### Roles
 Cool Kid - The default role assigned to a newly created user. It only has a permission to view user's own character information.
 
