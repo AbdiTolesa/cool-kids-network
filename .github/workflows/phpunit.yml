@@ -48,7 +48,7 @@ jobs:
       - name: PhpUnit tests
         run: |
           cd "/tmp/wordpress/src/wp-content/plugins/cool-kids-network"
-          pwd
+          composer install && composer dumpautoload -o
           phpunit --coverage-clover=coverage.xml
       - name: Send code coverage report to Codecov.io
         uses: codecov/codecov-action@v2
