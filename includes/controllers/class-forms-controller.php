@@ -93,6 +93,15 @@ class Forms_Controller {
 	 * @return string
 	 */
 	private static function get_signup_page_slug() {
+		/**
+		 * Filters the slug of the sign up page.
+		 *
+		 * @since 1.0
+		 *
+		 * @param string $slug The slug of page that contains [ckn-signup-form] shortcode.
+		 *
+		 * @return string
+		 */
 		return wpm_apply_filters_typed( 'string', 'ckn_signup_page_slug', 'cool-kids-network-signup' );
 	}
 
