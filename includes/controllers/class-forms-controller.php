@@ -34,7 +34,7 @@ class Forms_Controller {
 	 *
 	 * @return string
 	 */
-	public static function filter_blog_index_html( $block_content, $block ) {
+	public static function filter_blog_index_html( $block_content, $block ) { // @phpstan-ignore-line
 		if ( ! is_front_page() || ! is_home() ) {
 			return $block_content;
 		}

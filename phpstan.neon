@@ -24,4 +24,3 @@ parameters:
 		- '#Cannot access property#'
 		- '#Static method CoolKidsNetwork\\Controllers\\Forms_Controller::get_signup_page_slug\(\) is unused.#'
 		- '#Method CoolKidsNetwork\\Controllers\\Forms_Controller::get_signup_page_slug\(\) should return string but returns mixed#'
-		- '#Method (.)* has parameter $block with no value type specified in iterable type array#'
