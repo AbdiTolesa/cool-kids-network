@@ -110,6 +110,9 @@ class Forms_Controller {
 		if ( is_wp_error( $user ) ) {
 			wp_die( esc_html( $user->get_error_message() ) );
 		}
+		if ( ! $user ) {
+			return;
+		}
 		update_user_meta( $user, 'country', $character_data->location->country );
 		wp_set_current_user( $user );
 		wp_set_auth_cookie( $user );
