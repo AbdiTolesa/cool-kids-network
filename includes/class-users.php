@@ -42,7 +42,8 @@ class Users {
 			);
 			if ( 'coolest_kid' === $role ) {
 				global $wp_roles;
-				$user_role = reset( array_intersect( Roles::COOL_KIDS_NETWORK_ROLES, $user->roles ) );
+				$user_roles = array_intersect( Roles::COOL_KIDS_NETWORK_ROLES, $user->roles );
+				$user_role = reset( $user_roles );
 				$role_name = isset( $wp_roles->roles[ $user_role ] ) ? $wp_roles->roles[ $user_role ]['name'] : '';
 				$user_data = array_merge(
 					$user_data,
