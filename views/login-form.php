@@ -8,7 +8,7 @@
 		?>
 		<p class="text-sm font-medium text-gray-700">
 			<?php esc_html_e( 'Don’t have an account yet?', 'cool-kids-network' ); ?> 
-			<a href="<?php echo esc_url( home_url( self::get_signup_page_slug() ) ); ?>" class="text-md font-semibold underline text-gray-800">
+			<a href="<?php echo esc_url( home_url( self::get_signup_page_slug() ) ); ?>" class="text-base font-semibold underline text-gray-800">
 				<?php esc_html_e( 'Sign up', 'cool-kids-network' ); ?>
 			</a>
 		</p>
