@@ -29,23 +29,24 @@ class Roles {
 	 * @return void
 	 */
 	public static function update_user_role( $request ) {
+		$status = 400;
 		$request_params = $request->get_params();
 		if ( empty( $request_params['email'] ) || empty( $request_params['role'] ) ) {
-			wp_send_json_error( esc_html__( 'Missing required parameters', 'cool-kids-network' ) );
+			return self::send_rest_response( $status, __( 'Missing required parameters', 'cool-kids-network' ), false );
 		}
 
 		if ( ! in_array( $request_params['role'], self::COOL_KIDS_NETWORK_ROLES, true ) ) {
-			wp_send_json_error( esc_html__( 'Invalid role', 'cool-kids-network' ) );
+			return self::send_rest_response( $status, __( 'Invalid role', 'cool-kids-network' ), false );
 		}
 
 		if ( ! get_role( $request_params['role'] ) ) {
-			wp_send_json_error( esc_html__( 'Role does not exist', 'cool-kids-network' ) );
+			return self::send_rest_response( $status, __( 'Role does not exist', 'cool-kids-network' ), false );
 		}
 
 		$user = get_user_by( 'email', $request_params['email'] );
 
 		if ( ! $user ) {
-			wp_send_json_error( esc_html__( 'User not found', 'cool-kids-network' ) );
+			return self::send_rest_response( $status, __( 'User not found', 'cool-kids-network' ), false );
 		}
 		$result = wp_update_user(
 			array(
@@ -54,9 +55,29 @@ class Roles {
 			)
 		);
 		if ( is_wp_error( $result ) ) {
-			wp_send_json_error( esc_html__( 'Failed to update role', 'cool-kids-network' ) );
+			return self::send_rest_response( $status, __( 'Failed to update role', 'cool-kids-network' ), false );
 		}
-		wp_send_json_success( esc_html__( 'Role updated', 'cool-kids-network' ) );
+		$status = 200;
+		return self::send_rest_response( $status, __( 'Role updated', 'cool-kids-network' ), true );
+	}
+
+	/**
+	 * @since 1.0
+	 *
+	 * @param int    $status
+	 * @param string $message
+	 * @param bool   $success
+	 *
+	 * @return \WP_REST_Response
+	 */
+	private static function send_rest_response( $status, $message, $success ) {
+		return new \WP_REST_Response(
+			array(
+				'success' => $success,
+				'message' => $message ,
+			),
+			$status
+		);
 	}
 
 	/**

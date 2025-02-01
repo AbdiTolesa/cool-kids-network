@@ -1,1 +1,1 @@
-{"version":1,"defects":{"test_Users::test_generate_username_from_name":3,"CoolKidsNetwork\\test_Users::test_generate_username_from_name":4},"times":{"test_Users::test_generate_username_from_name":0.128,"CoolKidsNetwork\\test_Users::test_generate_username_from_name":0.031}}
+{"version":1,"defects":{"test_Roles::test_update_user_role":3,"test_Roles::test_update_user_role_assertion":4},"times":{"test_Roles::test_update_user_role":0.158,"test_Roles::test_update_user_role_assertion":0.007,"test_Users::test_generate_username_from_name":0.107}}
