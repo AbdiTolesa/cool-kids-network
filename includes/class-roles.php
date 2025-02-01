@@ -26,10 +26,10 @@ class Roles {
 	 *
 	 * @param \WP_REST_Request $request
 	 *
-	 * @return void
+	 * @return \WP_REST_Response
 	 */
 	public static function update_user_role( $request ) {
-		$status = 400;
+		$status         = 400;
 		$request_params = $request->get_params();
 		if ( empty( $request_params['email'] ) || empty( $request_params['role'] ) ) {
 			return self::send_rest_response( $status, __( 'Missing required parameters', 'cool-kids-network' ), false );
@@ -74,7 +74,7 @@ class Roles {
 		return new \WP_REST_Response(
 			array(
 				'success' => $success,
-				'message' => $message ,
+				'message' => $message,
 			),
 			$status
 		);
