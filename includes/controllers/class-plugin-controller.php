@@ -1,5 +1,5 @@
 <?php
-namespace CoolKidsNetwork;
+namespace CoolKidsNetwork\Controllers;
 
 class Plugin_Controller {
 	/**

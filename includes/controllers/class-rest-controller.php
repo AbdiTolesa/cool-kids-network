@@ -1,6 +1,6 @@
 <?php
 
-namespace CoolKidsNetwork;
+namespace CoolKidsNetwork\Controllers;
 
 class Rest_Controller {
 	/**
@@ -45,8 +45,8 @@ class Rest_Controller {
 			$route,
 			array(
 				'methods'             => \WP_REST_Server::EDITABLE,
-				'callback'            => array( 'CoolKidsNetwork\Roles', 'update_user_role' ),
-				'permission_callback' => array( 'CoolKidsNetwork\Roles', 'check_required_role' ),
+				'callback'            => array( 'CoolKidsNetwork\Models\Roles', 'update_user_role' ),
+				'permission_callback' => array( 'CoolKidsNetwork\Models\Roles', 'check_required_role' ),
 			)
 		);
 	}

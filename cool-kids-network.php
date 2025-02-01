@@ -8,11 +8,11 @@
 * Text Domain: cool-kids-network
  */
 
-register_activation_hook( __FILE__, array( 'CoolKidsNetwork\Roles', 'on_activation' ) );
+register_activation_hook( __FILE__, array( 'CoolKidsNetwork\Models\Roles', 'on_activation' ) );
 
 require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
 
-CoolKidsNetwork\Plugin_Controller::boot_plugin();
+CoolKidsNetwork\Controllers\Plugin_Controller::boot_plugin();
 
 if ( ! defined( 'CKN_PLUGIN_DIR' ) ) {
 	define( 'CKN_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

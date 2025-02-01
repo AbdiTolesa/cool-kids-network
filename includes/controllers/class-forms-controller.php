@@ -1,6 +1,6 @@
 <?php
 
-namespace CoolKidsNetwork;
+namespace CoolKidsNetwork\Controllers;
 
 class Forms_Controller {
 	/**
@@ -99,7 +99,7 @@ class Forms_Controller {
 
 		$user_data = array(
 			'user_email' => $email,
-			'user_login' => Users::generate_username_from_name( $first, $last ), // @phpstan-ignore-line
+			'user_login' => \CoolKidsNetwork\Models\Users::generate_username_from_name( $first, $last ), // @phpstan-ignore-line
 			'first_name' => $first,
 			'last_name'  => $last,
 			'user_pass'  => 'test',
