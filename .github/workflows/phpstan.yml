@@ -8,28 +8,25 @@ on:
 name: PHPStan Code Analysis
 jobs:
   phpstan:
+    if: contains(github.event.pull_request.labels.*.name, 'run analysis')
     name: PHPStan
 
     runs-on: ubuntu-latest
 
     steps:
       - name: "📥 Fetching Repository Contents"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.1.1
 
       - name: "💽  Installing PHP, Composer, CS2PR"
-        uses: shivammathur/setup-php@2.10.0
+        uses: shivammathur/setup-php@2.30.2
         with:
-          php-version: '8.0.22'
+          php-version: 8.0.22
           coverage: none
-          ini-values: display_errors = on, error_reporting = E_ALL
-          tools: phpstan, composer
+          ini-values: display_errors = on, error_reporting = E_ALL, opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
+          tools: composer
 
       - name: "💽  Installing Composer Packages"
-        run: composer update
-
-      - name: "💽  Installing PHPStan Package"
-        run: |
-          composer require phpstan/extension-installer
+        run: composer install
 
       - name: "🧪 Test"
-        run: phpstan analyze ./
+        run: vendor/bin/phpstan analyze ./ --memory-limit=2G

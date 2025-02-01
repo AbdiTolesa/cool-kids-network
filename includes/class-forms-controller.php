@@ -87,7 +87,7 @@ class Forms_Controller {
 		}
 		$response = json_decode( wp_remote_retrieve_body( $response ) );
 
-		if ( ! is_array( $response->results ) ) {
+		if ( ! is_object( $response ) || ! is_array( $response->results ) ) {
 			return;
 		}
 		$character_data = $response->results[0];
