@@ -2,7 +2,7 @@
 
 class test_Roles extends WP_UnitTestCase {
 	public function test_update_user_role() {
-		CoolKidsNetwork\Roles::on_activation(); // Create roles
+		CoolKidsNetwork\Models\Roles::on_activation(); // Create roles
 		$users = get_users(
 			array(
 				'role'   => 'administrator',
