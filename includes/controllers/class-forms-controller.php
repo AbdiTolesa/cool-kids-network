@@ -4,7 +4,8 @@ namespace CoolKidsNetwork\Controllers;
 
 class Forms_Controller {
 	/**
-	 * Outputs a form that has Signup button and a login form for anonymous users.
+	 * Outputs a form that has Signup button and a login form for anonymous users or user characters list
+	 * if user is logged in.
 	 *
 	 * @since 1.0
 	 *
@@ -13,13 +14,45 @@ class Forms_Controller {
 	 * @return string
 	 */
 	public static function filter_page_content( $html ) {
-		if ( ! is_front_page() && ! is_home() ) {
-			return $html;
+		if ( is_front_page() && ! is_home() ) { // Static home page, not blog
+			return self::update_html_with_login_form_or_character_list( $html );
 		}
+
+		return $html;
+	}
+
+	/**
+	 * Modified the blog index page to show a login form for anonymous users or user characters list
+	 * if user is logged in.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $block_content
+	 * @param array  $block
+	 *
+	 * @return string
+	 */
+	public static function filter_blog_index_html( $block_content, $block ) {
+		if ( ! is_front_page() || ! is_home() ) {
+			return $block_content;
+		}
+		if ( ! empty( $block['blockName'] ) && $block['blockName'] === 'core/query' ) {
+			return self::update_html_with_login_form_or_character_list( $block_content );
+		}
+		return $block_content;
+	}
+
+	private static function update_html_with_login_form_or_character_list( $html ) {
 		if ( ! is_user_logged_in() ) {
 			return self::get_login_form() . $html;
 		}
 		return do_shortcode( '[ckn-show-character-info]' ) . do_shortcode( '[ckn-list-users]' ) . $html;
+	}
+
+	public static function filter_blog_index_page_content( $query ) {
+		if ( $query->is_main_query() && $query->is_home() ) {
+			echo self::get_login_form();
+		}
 	}
 
 	/**

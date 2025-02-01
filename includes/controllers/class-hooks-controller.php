@@ -16,5 +16,6 @@ class Hooks_Controller {
 		add_action( 'init', array( 'CoolKidsNetwork\Controllers\Forms_Controller', 'process_signup_form' ) );
 		add_action( 'wp_enqueue_scripts', array( 'CoolKidsNetwork\Controllers\Plugin_Controller', 'enqueue_styles' ) );
 		add_action( 'pre_get_posts', array( 'CoolKidsNetwork\Models\Users', 'set_paged_query_var' ) );
+		add_filter( 'render_block', array( 'CoolKidsNetwork\Controllers\Forms_Controller', 'filter_blog_index_html' ), 10, 2 );
 	}
 }
