@@ -105,6 +105,7 @@ class Forms_Controller {
 			'user_pass'  => 'test',
 			'role'       => 'cool_kid',
 		);
+
 		$user = wp_insert_user( $user_data );
 		if ( is_wp_error( $user ) ) {
 			wp_die( esc_html( $user->get_error_message() ) );
