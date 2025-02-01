@@ -13,7 +13,7 @@ Cooler Kid - Has all capabilities of `Cool Kid` plus viewing other users' name a
 Coolest Kid - Has all capabilities of `Cooler Kid` plus `view_other_users_email` and `view_other_users_role` custom capabilities.
 
 ### Shortcodes
-The following shortcodes can be used on any page to display information about characters or signup/login forms.
+The following shortcodes can be used on any page to display information about characters or signup/login forms.<br>
 `[ckn-show-character-info]` - Displays the current user's character details.<br>
 `[ckn-list-users]` - Displays a list of other users.<br>
 `[ckn-signup-form]` - Displays a sign up form that allows users create a new user account to anonymous users.
