@@ -1,0 +1,1 @@
+{"version":1,"defects":{"test_Users::test_generate_username_from_name":3,"CoolKidsNetwork\\test_Users::test_generate_username_from_name":4},"times":{"test_Users::test_generate_username_from_name":0.109,"CoolKidsNetwork\\test_Users::test_generate_username_from_name":0.031}}
