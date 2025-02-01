@@ -8,6 +8,8 @@ class Forms_Controller {
 	 *
 	 * @since 1.0
 	 *
+	 * @param string $html
+	 *
 	 * @return string
 	 */
 	public static function filter_page_content( $html ) {
@@ -30,7 +32,7 @@ class Forms_Controller {
 	private static function maybe_get_login_form() {
 		ob_start();
 		include CKN_VIEWS_DIR . '/login-form.php';
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
@@ -46,7 +48,7 @@ class Forms_Controller {
 		}
 		ob_start();
 		include CKN_VIEWS_DIR . '/signup-form.php';
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
@@ -60,11 +62,11 @@ class Forms_Controller {
 		if ( ! isset( $_POST['ckn-email'] ) || ! isset( $_POST['_wpnonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_wpnonce'] ) ), 'ckn_signup_action' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( (string) wp_unslash( $_POST['_wpnonce'] ) ), 'ckn_signup_action' ) ) {
 			wp_die();
 		}
 
-		$email   = sanitize_email( wp_unslash( $_POST['ckn-email'] ) );
+		$email   = sanitize_email( (string) wp_unslash( $_POST['ckn-email'] ) );
 		$user_id = email_exists( $email );
 
 		if ( $user_id ) {
@@ -85,19 +87,29 @@ class Forms_Controller {
 		}
 		$response = json_decode( wp_remote_retrieve_body( $response ) );
 
-		$first = $response->results[0]->name->first;
-		$last  = $response->results[0]->name->last;
+		if ( ! is_array( $response->results ) ) {
+			return;
+		}
+		$character_data = $response->results[0];
+		if ( ! is_object( $character_data ) ) {
+			return;
+		}
+		$first = $character_data->name->first;
+		$last  = $character_data->name->last;
 
 		$user_data = array(
 			'user_email' => $email,
-			'user_login' => Users::generate_username_from_name( $first, $last ),
+			'user_login' => Users::generate_username_from_name( $first, $last ), // @phpstan-ignore-line
 			'first_name' => $first,
 			'last_name'  => $last,
 			'user_pass'  => 'test',
 			'role'       => 'cool_kid',
 		);
 		$user_id   = wp_insert_user( $user_data );
-		update_user_meta( $user_id, 'country', $response->results[0]->location->country );
+		if ( is_wp_error( $user ) ) {
+			wp_die( esc_html( $user->get_error_message() ) );
+		}
+		update_user_meta( $user_id, 'country', $character_data->location->country );
 		wp_set_current_user( $user_id );
 		wp_set_auth_cookie( $user_id );
 		wp_safe_redirect( home_url() );

@@ -178,7 +178,7 @@ class Users {
 	 */
 	public static function set_paged_query_var( $query ) {
 		if ( ! is_admin() && $query->is_main_query() && isset( $_GET['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$query->set( 'paged', absint( sanitize_key( wp_unslash( $_GET['pg'] ) ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$query->set( 'paged', absint( sanitize_text_field( wp_unslash( $_GET['pg'] ) ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 	}
 }
