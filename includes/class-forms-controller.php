@@ -16,10 +16,10 @@ class Forms_Controller {
 		if ( ! is_front_page() && ! is_home() ) {
 			return $html;
 		}
-		if ( is_user_logged_in() ) {
-			return do_shortcode( '[ckn-show-character-info]' ) . do_shortcode( '[ckn-list-users]' ) . $html;
+		if ( ! is_user_logged_in() ) {
+			return self::get_login_form() . $html;
 		}
-		return self::maybe_get_login_form() . $html;
+		return do_shortcode( '[ckn-show-character-info]' ) . do_shortcode( '[ckn-list-users]' ) . $html;
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Forms_Controller {
 	 *
 	 * @return string
 	 */
-	private static function maybe_get_login_form() {
+	private static function get_login_form() {
 		ob_start();
 		include CKN_VIEWS_DIR . '/login-form.php';
 		return (string) ob_get_clean();
@@ -110,9 +110,9 @@ class Forms_Controller {
 		if ( is_wp_error( $user ) ) {
 			wp_die( esc_html( $user->get_error_message() ) );
 		}
-		update_user_meta( $user->ID, 'country', $character_data->location->country );
-		wp_set_current_user( $user->ID );
-		wp_set_auth_cookie( $user->ID );
+		update_user_meta( $user, 'country', $character_data->location->country );
+		wp_set_current_user( $user );
+		wp_set_auth_cookie( $user );
 		wp_safe_redirect( home_url() );
 		exit;
 	}
