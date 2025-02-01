@@ -3,7 +3,7 @@ $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'cool-kids-network/cool-kids-network.php' ),
 );
 
-echo 'Welcome to the Formidable Forms Test Suite' . PHP_EOL;
+echo 'Welcome to the Cool Kids Network Test Suite' . PHP_EOL;
 echo 'Version: 1.0' . PHP_EOL . PHP_EOL;
 
 if ( ! defined( 'SCRIPT_DEBUG' ) ) {
