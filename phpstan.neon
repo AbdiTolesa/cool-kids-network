@@ -22,5 +22,5 @@ parameters:
 		- '#Construct empty\(\) is not allowed. Use more strict comparison#'
 		- '#return type has no value type specified in iterable type array#'
 		- '#Cannot access property#'
-		- '#Static method CoolKidsNetwork\Controllers\Forms_Controller::get_signup_page_slug() is unused.#'
-		- 'Method CoolKidsNetwork\Controllers\Forms_Controller::get_signup_page_slug() should return string but returns mixed#'
+		- '#Static method CoolKidsNetwork\\Controllers\\Forms_Controller::get_signup_page_slug\(\) is unused.#'
+		- 'Method CoolKidsNetwork\\Controllers\\Forms_Controller::get_signup_page_slug\(\) should return string but returns mixed#'
