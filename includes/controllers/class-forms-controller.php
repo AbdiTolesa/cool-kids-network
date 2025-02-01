@@ -28,7 +28,7 @@ class Forms_Controller {
 	 * @since 1.0
 	 *
 	 * @param string $block_content
-	 * @param array<object>  $block {
+	 * @param array<string>  $block {
 	 *     @type string $blockName The block name including namespace.
 	 * }
 	 *
