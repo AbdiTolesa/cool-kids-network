@@ -62,11 +62,11 @@ class Forms_Controller {
 		if ( ! isset( $_POST['ckn-email'] ) || ! isset( $_POST['_wpnonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_text_field( (string) wp_unslash( $_POST['_wpnonce'] ) ), 'ckn_signup_action' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'ckn_signup_action' ) ) {
 			wp_die();
 		}
 
-		$email   = sanitize_email( (string) wp_unslash( $_POST['ckn-email'] ) );
+		$email   = sanitize_email( wp_unslash( $_POST['ckn-email'] ) );
 		$user_id = email_exists( $email );
 
 		if ( $user_id ) {
@@ -105,13 +105,13 @@ class Forms_Controller {
 			'user_pass'  => 'test',
 			'role'       => 'cool_kid',
 		);
-		$user_id   = wp_insert_user( $user_data );
+		$user = wp_insert_user( $user_data );
 		if ( is_wp_error( $user ) ) {
 			wp_die( esc_html( $user->get_error_message() ) );
 		}
-		update_user_meta( $user_id, 'country', $character_data->location->country );
-		wp_set_current_user( $user_id );
-		wp_set_auth_cookie( $user_id );
+		update_user_meta( $user->ID, 'country', $character_data->location->country );
+		wp_set_current_user( $user->ID );
+		wp_set_auth_cookie( $user->ID );
 		wp_safe_redirect( home_url() );
 		exit;
 	}

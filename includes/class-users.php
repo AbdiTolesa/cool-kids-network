@@ -103,7 +103,7 @@ class Users {
 		$role_name = isset( $wp_roles->roles[ $role ] ) ? $wp_roles->roles[ $role ]['name'] : '';
 		ob_start();
 		include CKN_VIEWS_DIR . '/character-info.php';
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Users {
 		}
 		ob_start();
 		self::display_users_with_pagination( reset( $valid_roles ) );
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**

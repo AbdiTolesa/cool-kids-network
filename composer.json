@@ -1,7 +1,5 @@
 {
     "require": {
-        "automattic/jetpack-autoloader": "^3.0",
-        "aws/aws-sdk-php-resources": "^0.3.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.11.2",
@@ -11,7 +9,6 @@
 		"wp-coding-standards/wpcs": "^3.0",
 		"automattic/vipwpcs": "^3.0",
 		"squizlabs/php_codesniffer": "^3.9",
-        "php-stubs/woocommerce-stubs": "^5.5"
     },
     "config": {
         "allow-plugins": {
