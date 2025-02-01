@@ -1,6 +1,7 @@
 {
     "require": {
-        "automattic/jetpack-autoloader": "^3.0"
+        "automattic/jetpack-autoloader": "^3.0",
+        "wp-media/apply-filters-typed": "^1.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.11.2",

@@ -52,6 +52,16 @@ class Forms_Controller {
 	}
 
 	/**
+	 * Returns the slug of the sign up page.
+	 *
+	 * @since 1.0
+	 * @return string
+	 */
+	private static function get_signup_page_slug() {
+		return wpm_apply_filters_typed( 'string', 'ckn_signup_page_slug', 'cool-kids-network-signup' );
+	}
+
+	/**
 	 * Creates user and its character.
 	 *
 	 * @since 1.0
@@ -71,8 +81,7 @@ class Forms_Controller {
 
 		if ( $user_id ) {
 			$url = add_query_arg(
-				array( 'error' => 'email_exists' ),
-				home_url( '/cool-kids-network-signup' )
+				array( 'error' => 'email_exists' )
 			);
 			wp_safe_redirect( $url );
 			exit;
