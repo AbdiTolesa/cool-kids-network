@@ -19,5 +19,5 @@ parameters:
 		- '#Access to an undefined property#'
 		- '#Constant (.)* not found.'
 		- '#has parameter \$request with generic class WP_REST_Request but does not specify its types: T#'
-		- 'Construct empty() is not allowed. Use more strict comparison'
+		- 'Construct empty() is not allowed. Use more strict comparison#'
 		- '#return type has no value type specified in iterable type array#'
