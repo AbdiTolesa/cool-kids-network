@@ -6,6 +6,7 @@
 	<exclude-pattern>node_modules/*</exclude-pattern>
 	<exclude-pattern>bin/*</exclude-pattern>
 	<exclude-pattern>libraries/*</exclude-pattern>
+	<exclude-pattern>tests/*</exclude-pattern>
 
 	<arg name="extensions" value="php" />
 
