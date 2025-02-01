@@ -28,7 +28,9 @@ class Forms_Controller {
 	 * @since 1.0
 	 *
 	 * @param string $block_content
-	 * @param array  $block
+	 * @param array  $block {
+	 *     @type string $blockName The block name including namespace.
+	 * }
 	 *
 	 * @return string
 	 */
@@ -42,17 +44,17 @@ class Forms_Controller {
 		return $block_content;
 	}
 
+	/**
+	 * @since 1.0
+	 * @param string $html
+	 *
+	 * @return string
+	 */
 	private static function update_html_with_login_form_or_character_list( $html ) {
 		if ( ! is_user_logged_in() ) {
 			return self::get_login_form() . $html;
 		}
 		return do_shortcode( '[ckn-show-character-info]' ) . do_shortcode( '[ckn-list-users]' ) . $html;
-	}
-
-	public static function filter_blog_index_page_content( $query ) {
-		if ( $query->is_main_query() && $query->is_home() ) {
-			echo self::get_login_form();
-		}
 	}
 
 	/**
